@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         textTheme: const TextTheme(
           subtitle1: TextStyle(
             fontFamily: 'Cario',
-            color: Colors.white
+            color: Colors.black
           ),
           headline5: TextStyle(
             fontFamily: 'Cario',
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
         
       ),
       onGenerateRoute: _appRouter.onGenerate,
-      initialRoute: AppRoutes.mainLayoutScreenRoute,
+      initialRoute: AppRoutes.loginScreenRoute,
     );
   }
   @override

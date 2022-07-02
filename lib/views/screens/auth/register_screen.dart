@@ -116,7 +116,7 @@ class RegisterScreen extends StatelessWidget {
                               AuthCubit.get(context).registerNewUser(
                                   email: emailController.text,
                                   password: passwordController.text,
-                                  nickName: nickNameController.text,
+                                  name: nickNameController.text,
                                   phone: phoneController.text);
                             }
                           }).fadeInList(4, true),

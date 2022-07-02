@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/models/user_model.dart';
+import 'package:ecommerce/shared/constants.dart';
 import 'package:ecommerce/views/screens/mainlayout/cubit/states.dart';
 import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/chats.dart';
 import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/home.dart';
@@ -12,13 +15,26 @@ class AppCubit extends Cubit<AppCubitStates>{
 
 
   static AppCubit get(context) => BlocProvider.of(context);
+  final PageStorageBucket bucket = PageStorageBucket();
 
-  List<Widget> screens = [
-    const HomeModule(),
-    const ChatsModule(),
-    const NewPostModule(),
-    const UsersModule(),
-    const SettingsModule()
+  //we are going to use PageStorage() to presist the pages states
+  final List<Widget> screens = [
+    const HomeModule(
+      
+      key: PageStorageKey('HomePage'),
+    ),
+    const ChatsModule(
+      key: PageStorageKey('ChatsPage'),
+    ),
+    const NewPostModule(
+      key: PageStorageKey('NewpostPage'),
+    ),
+    const UsersModule(
+      key: PageStorageKey('UsersPage'),
+    ),
+    const SettingsModule(
+      key: PageStorageKey('SettingsPage'),
+    )
 
   ];
   List<String> titles =
@@ -37,7 +53,24 @@ class AppCubit extends Cubit<AppCubitStates>{
     currentIndex = index;
     emit(AppCubitChangeBottomNavBar());
 
+
   }
+  UserModel? userModel;
+  Future<void> getUserData()async{
+    emit(AppCubitGetUserDataLoadingState());
+       try{
+
+        var model = await FirebaseFirestore.instance.collection('users').doc(Constants.uId).get();
+        print(Constants.uId);
+        emit(AppCubitGetUserDataSuccessState());
+
+
+        userModel =  UserModel.formJson(model.data());
+       }on FirebaseException catch (e){
+        print(e.code);
+        emit(AppCubitGetUserDataErrorState());
+       }
+     }
 
   
 }

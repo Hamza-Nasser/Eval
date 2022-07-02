@@ -4,7 +4,8 @@ class AuthInitialState extends AuthStates{}
 
 class AuthLoginLoadingState extends AuthStates{}
 class AuthLoginSuccessState extends AuthStates{
-  static String? successMsg;
+  final String? uId;
+  AuthLoginSuccessState(this.uId);
 }
 class AuthLoginErrorState extends AuthStates{
   static String? errorMsg;

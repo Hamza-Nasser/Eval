@@ -1,53 +1,64 @@
+import 'package:ecommerce/models/user_model.dart';
 import 'package:ecommerce/shared/constants.dart';
 import 'package:ecommerce/shared/icon_broken.dart';
+import 'package:ecommerce/views/screens/mainlayout/cubit/cubit.dart';
+import 'package:ecommerce/views/screens/mainlayout/cubit/states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeModule extends StatelessWidget {
   const HomeModule({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-           Stack(
-                alignment: AlignmentDirectional.bottomEnd,
-                children: [
-                  const Card(
-                    elevation: 5,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image(
-                      image: NetworkImage(
-                          'https://wallpaperaccess.com/full/2576098.jpg'),
+    
+    return BlocConsumer<AppCubit, AppCubitStates>(
+      listener: (context, state) {
+        
+      },
+      builder: (context, state) {
+        return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+             Stack(
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: const [
+                    Card(
+                      elevation: 5,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Image(
+                        image: NetworkImage(
+                            'https://wallpaperaccess.com/full/2576098.jpg'),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.only(bottom: 8.0, end: 8.0),
-                    child: Text(
-                      'Neon is the best agent.',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  )
-                ],
-              ),
-              
-          ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index){
-            return buildPostItem(context);
-          },
-            itemCount: 10,
-          ),
-        ],
-      ),
+                    
+                  ],
+                ),
+                buildPostItem(context),
+                buildPostItem(context),
+                buildPostItem(context),
+
+                
+            // ListView.builder(
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   shrinkWrap: true,
+            //   itemBuilder: (context, index){
+            //   return buildPostItem(context);
+            // },
+            //   itemCount: 10,
+            // ),
+          ],
+        ),
+      );
+      },
     );
   }
 }
 
-Widget buildPostItem(BuildContext context) => Padding(
+Widget buildPostItem(BuildContext context) {
+  UserModel? user = AppCubit.get(context).userModel;
+  return Padding(
   padding: const EdgeInsets.all(Constants.defaultPadding / 4),
   child: Card(
     //clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -74,14 +85,15 @@ Widget buildPostItem(BuildContext context) => Padding(
                     Row(
                       children: [
                         Text(
-                          'Hamza Nasser',
+                          //'Eval',
+                          user!.name??'Eval user',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle1!
                               .copyWith(color: Colors.black),
                         ),
                         const SizedBox(
-                          width: 3,
+                          width: 1,
                         ),
                         Icon(
                           Icons.check_circle,
@@ -91,7 +103,8 @@ Widget buildPostItem(BuildContext context) => Padding(
                       ],
                     ),
                     Text(
-                      'NasserJr',
+                      //'NasserJr',
+                      user.tagLine??'',
                       style: Theme.of(context).textTheme.caption,
                     )
                   ],
@@ -271,3 +284,4 @@ Widget buildPostItem(BuildContext context) => Padding(
     ),
   ),
 );
+}

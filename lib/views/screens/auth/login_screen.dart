@@ -26,7 +26,9 @@ class LoginScreen extends StatelessWidget {
           Fluttertoast.showToast(msg: AuthLoginErrorState.errorMsg??'Anonymous Error');
         }
         if(state is AuthLoginSuccessState){
-          Fluttertoast.showToast(msg: AuthLoginSuccessState.successMsg??'Anonymous Error');
+        var authCubit = AuthCubit.get(context);
+          
+          Fluttertoast.showToast(msg: authCubit.firestoreUser!.user!.uid);
         }
       },
       builder: (context, state) {
@@ -114,11 +116,17 @@ class LoginScreen extends StatelessWidget {
                               
                               onTap: () {
                                     //Navigator.pushReplacementNamed(context, AppRoutes.mainLayoutScreenRoute);
-                                   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.mainLayoutScreenRoute, (route) => false);
+                                   
                                 
                                 if (formKey.currentState!.validate()) {
                                  
                                   authCubit.verifyUserLogin(emailController.text, passwordController.text).then((value){
+                                    if(authCubit.isAutherized) {
+                                      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.mainLayoutScreenRoute, (route) => false);
+
+                                    } else {
+
+                                    }
                                   });
                                 }
                               }).fadeInList(4, true),
