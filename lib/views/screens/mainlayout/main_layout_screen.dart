@@ -1,6 +1,6 @@
-import 'package:ecommerce/shared/icon_broken.dart';
-import 'package:ecommerce/views/screens/mainlayout/cubit/cubit.dart';
-import 'package:ecommerce/views/screens/mainlayout/cubit/states.dart';
+import 'package:eval/shared/icon_broken.dart';
+import 'package:eval/views/screens/mainlayout/cubit/cubit.dart';
+import 'package:eval/views/screens/mainlayout/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,13 +13,16 @@ class MainLayoutScreen extends StatelessWidget {
     // TODO: implement build
     
     
-  return BlocProvider(
-    create: (context) => AppCubit()..getUserData(),
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider(
+    create: (context) => AppCubit()..getUserData()),
+    ],
     child: BlocConsumer<AppCubit, AppCubitStates>(
         listener: (context, state) {},
         builder: (context, state) {
           var appCubit = AppCubit.get(context);
-
+  
           if(state is AppCubitGetUserDataLoadingState){
             return const Scaffold(
               body: Center(
@@ -29,36 +32,36 @@ class MainLayoutScreen extends StatelessWidget {
           }
           return WillPopScope(
             onWillPop: exitApp,
-  
+    
             child: Scaffold(
-  
+    
               appBar: AppBar(
                 automaticallyImplyLeading: false,
-  
+    
                 backgroundColor: Colors.white,
                 title: Text(
                   appCubit.titles[appCubit.currentIndex],
                   style: Theme.of(context).textTheme.headline5,
                 ),
-  
+    
               ),
               //TODO: the state of pages is not preserved where it left off
               //try to fix this issue.
               body: PageStorage(
-  
+    
                 bucket: appCubit.bucket,
                 child: appCubit.screens[appCubit.currentIndex],
-  
+    
               ),
               bottomNavigationBar: BottomNavigationBar(
-  
+    
                 currentIndex: appCubit.currentIndex,
                 onTap: (index){
                   appCubit.changeBottomNav(index);
                 },
                 items: const [
                   BottomNavigationBarItem(
-  
+    
                     icon: Icon(IconBroken.Home),
                     label: 'Home'
                   ),
@@ -79,7 +82,7 @@ class MainLayoutScreen extends StatelessWidget {
                     label: 'Settings'
                   ),
                 ],
-  
+    
               ),
             ),
           );

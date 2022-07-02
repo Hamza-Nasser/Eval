@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/models/user_model.dart';
-import 'package:ecommerce/shared/constants.dart';
-import 'package:ecommerce/views/screens/mainlayout/cubit/states.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/chats.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/home.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/new_post.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/settings.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_modules/useres.dart';
+import 'package:eval/models/user_model.dart';
+import 'package:eval/shared/constants.dart';
+import 'package:eval/views/screens/mainlayout/cubit/states.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_modules/chats.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_modules/home.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_modules/new_post.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_modules/settings.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_modules/useres.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

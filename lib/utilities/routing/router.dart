@@ -1,11 +1,11 @@
 
 
-import 'package:ecommerce/utilities/routing/routes.dart';
-import 'package:ecommerce/views/screens/auth/cubit/auth_cubit.dart';
-import 'package:ecommerce/views/screens/auth/forgot_pass_screen.dart';
-import 'package:ecommerce/views/screens/auth/login_screen.dart';
-import 'package:ecommerce/views/screens/auth/register_screen.dart';
-import 'package:ecommerce/views/screens/mainlayout/main_layout_screen.dart';
+import 'package:eval/utilities/routing/routes.dart';
+import 'package:eval/views/screens/auth/cubit/auth_cubit.dart';
+import 'package:eval/views/screens/auth/forgot_pass_screen.dart';
+import 'package:eval/views/screens/auth/login_screen.dart';
+import 'package:eval/views/screens/auth/register_screen.dart';
+import 'package:eval/views/screens/mainlayout/main_layout_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,8 +1,8 @@
-import 'package:ecommerce/models/user_model.dart';
-import 'package:ecommerce/shared/constants.dart';
-import 'package:ecommerce/shared/icon_broken.dart';
-import 'package:ecommerce/views/screens/mainlayout/cubit/cubit.dart';
-import 'package:ecommerce/views/screens/mainlayout/cubit/states.dart';
+import 'package:eval/models/user_model.dart';
+import 'package:eval/shared/constants.dart';
+import 'package:eval/shared/icon_broken.dart';
+import 'package:eval/views/screens/mainlayout/cubit/cubit.dart';
+import 'package:eval/views/screens/mainlayout/cubit/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

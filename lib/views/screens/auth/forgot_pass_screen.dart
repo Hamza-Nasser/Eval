@@ -1,8 +1,8 @@
-import 'package:ecommerce/shared/constants.dart';
-import 'package:ecommerce/utilities/extensions/fade_extinsion.dart';
-import 'package:ecommerce/views/screens/auth/cubit/auth_cubit.dart';
-import 'package:ecommerce/views/screens/auth/cubit/states.dart';
-import 'package:ecommerce/views/widgets/main_button.dart';
+import 'package:eval/shared/constants.dart';
+import 'package:eval/utilities/extensions/fade_extinsion.dart';
+import 'package:eval/views/screens/auth/cubit/auth_cubit.dart';
+import 'package:eval/views/screens/auth/cubit/states.dart';
+import 'package:eval/views/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
