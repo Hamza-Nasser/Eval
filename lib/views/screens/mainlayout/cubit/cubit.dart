@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eval/models/user_model.dart';
 import 'package:eval/shared/constants.dart';
@@ -9,10 +11,10 @@ import 'package:eval/views/screens/mainlayout/main_layout_modules/settings.dart'
 import 'package:eval/views/screens/mainlayout/main_layout_modules/useres.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
-class AppCubit extends Cubit<AppCubitStates>{
-  AppCubit():super(AppCubitInitialState());
-
+class AppCubit extends Cubit<AppCubitStates> {
+  AppCubit() : super(AppCubitInitialState());
 
   static AppCubit get(context) => BlocProvider.of(context);
   final PageStorageBucket bucket = PageStorageBucket();
@@ -20,7 +22,6 @@ class AppCubit extends Cubit<AppCubitStates>{
   //we are going to use PageStorage() to presist the pages states
   final List<Widget> screens = [
     const HomeModule(
-      
       key: PageStorageKey('HomePage'),
     ),
     const ChatsModule(
@@ -35,10 +36,8 @@ class AppCubit extends Cubit<AppCubitStates>{
     const SettingsModule(
       key: PageStorageKey('SettingsPage'),
     )
-
   ];
-  List<String> titles =
-  [
+  List<String> titles = [
     'Home',
     'Chats',
     'Post',
@@ -46,31 +45,55 @@ class AppCubit extends Cubit<AppCubitStates>{
     'Settings',
   ];
 
-
-
   int currentIndex = 0;
-  void changeBottomNav(int index){
+  void changeBottomNav(int index) {
     currentIndex = index;
     emit(AppCubitChangeBottomNavBar());
-
-
   }
+
   UserModel? userModel;
-  Future<void> getUserData()async{
+  Future<void> getUserData() async {
     emit(AppCubitGetUserDataLoadingState());
-       try{
+    try {
+      var model = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(Constants.uId)
+          .get();
+      print(Constants.uId);
+      emit(AppCubitGetUserDataSuccessState());
 
-        var model = await FirebaseFirestore.instance.collection('users').doc(Constants.uId).get();
-        print(Constants.uId);
-        emit(AppCubitGetUserDataSuccessState());
+      userModel = UserModel.formJson(model.data());
+    } on FirebaseException catch (e) {
+      print(e.code);
+      emit(AppCubitGetUserDataErrorState());
+    }
+  }
 
+  File? pickedProfileImage;
+  Future<void> pickProfileImage() async {
+    final ImagePicker picker = ImagePicker();
 
-        userModel =  UserModel.formJson(model.data());
-       }on FirebaseException catch (e){
-        print(e.code);
-        emit(AppCubitGetUserDataErrorState());
-       }
-     }
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      pickedProfileImage = File(pickedFile.path);
+      print(pickedFile.path);
+      emit(AppCubitPickProfileImageSuccessState());
+    } else {
+      print('No Image Selected');
+      emit(AppCubitPickProfileImageErrorPhotoState());
+    }
+  }
 
-  
+  File? pickedCoverImage;
+  Future<void> pickCoverImage() async {
+    final ImagePicker picker = ImagePicker();
+    final pickedfile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedfile != null) {
+      pickedCoverImage = File(pickedfile.path);
+      emit(AppCubitPickCoverImageSuccessState());
+    } else {
+      print('No Image Selected');
+      emit(AppCubitPickCoverImageErrorPhotoState());
+    }
+  }
 }
