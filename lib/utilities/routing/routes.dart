@@ -7,4 +7,5 @@ class AppRoutes{
 
   //main layout
   static const String mainLayoutScreenRoute = '/mainLayoutScreen';
+  static const String editProfileScreenRoute = '/editProfileScreen';
 }

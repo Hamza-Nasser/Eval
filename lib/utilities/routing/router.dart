@@ -5,6 +5,7 @@ import 'package:eval/views/screens/auth/cubit/auth_cubit.dart';
 import 'package:eval/views/screens/auth/forgot_pass_screen.dart';
 import 'package:eval/views/screens/auth/login_screen.dart';
 import 'package:eval/views/screens/auth/register_screen.dart';
+import 'package:eval/views/screens/mainlayout/edit_profile/edit_profile_screen.dart';
 import 'package:eval/views/screens/mainlayout/main_layout_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,13 @@ class AppRouter {
           } 
     
         );
+        case AppRoutes.editProfileScreenRoute:
+          return CupertinoPageRoute(
+          builder: (context) {
+            
+              return const EditProfileScreen();
+          } );
+
       default:
        
         

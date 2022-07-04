@@ -50,6 +50,7 @@ android {
         applicationId "com.example.eval"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+        // flutter.minSdkVersion is located at flutter-directory/packages/flutter_tools/gradle/flutter.gradle.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

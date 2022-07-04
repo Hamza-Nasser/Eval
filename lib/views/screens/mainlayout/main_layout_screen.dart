@@ -10,8 +10,6 @@ class MainLayoutScreen extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    
     
   return MultiBlocProvider(
     providers: [
@@ -24,8 +22,11 @@ class MainLayoutScreen extends StatelessWidget {
           var appCubit = AppCubit.get(context);
   
           if(state is AppCubitGetUserDataLoadingState){
-            return const Scaffold(
-              body: Center(
+            return Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.white,
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             );
@@ -45,8 +46,7 @@ class MainLayoutScreen extends StatelessWidget {
                 ),
     
               ),
-              //TODO: the state of pages is not preserved where it left off
-              //try to fix this issue.
+            
               body: PageStorage(
     
                 bucket: appCubit.bucket,
