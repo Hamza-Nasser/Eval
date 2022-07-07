@@ -20,6 +20,9 @@ class EditProfileScreen extends StatelessWidget {
         builder: (context, state) {
           File? profileImage = AppCubit.get(context).pickedProfileImage;
           File? coverImage = AppCubit.get(context).pickedCoverImage;
+          final editBioController = TextEditingController();
+          final editphoneController = TextEditingController();
+          final editnameController = TextEditingController();
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -37,6 +40,8 @@ class EditProfileScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(Constants.defaultPadding),
                   child: Column(
                     children: [
+                      if (state is AppCubitUploadImageLoadingState)
+                        const LinearProgressIndicator(),
                       SizedBox(
                         height: 220,
                         child: Stack(
@@ -50,20 +55,18 @@ class EditProfileScreen extends StatelessWidget {
                                     height: 170,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(8.0),
-                                            topRight: Radius.circular(8.0)),
                                         image: DecorationImage(
-                                          image: coverImage == null
-                                              ? const NetworkImage(
-                                                  'https://wallpaperaccess.com/full/2576098.jpg',
-                                                )
-                                              : FileImage(coverImage)
-                                                  as ImageProvider,
-                                          // image: NetworkImage(
-                                          //     'https://wallpaperaccess.com/full/2576098.jpg'),
-                                          //fit: BoxFit.cover
-                                        )),
+                                      image: coverImage == null
+                                          ? NetworkImage(
+                                              AppCubit.userModel!.coverPhoto ??
+                                                  'https://wallpaperaccess.com/full/3037916.png',
+                                            )
+                                          : FileImage(coverImage)
+                                              as ImageProvider,
+                                      // image: NetworkImage(
+                                      //     'https://wallpaperaccess.com/full/2576098.jpg'),
+                                      //fit: BoxFit.cover
+                                    )),
                                   ),
                                   Stack(
                                     alignment: AlignmentDirectional.topEnd,
@@ -78,12 +81,6 @@ class EditProfileScreen extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color:
                                                   Colors.black.withAlpha(150),
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(8.0),
-                                                      topRight:
-                                                          Radius.circular(8.0)),
                                             ),
                                             child: Padding(
                                               padding:
@@ -133,7 +130,9 @@ class EditProfileScreen extends StatelessWidget {
                                     child: profileImage == null
                                         ? ClipOval(
                                             child: Image.network(
-                                              'https://wallpaperaccess.com/full/3037916.png',
+                                              AppCubit.userModel!
+                                                      .profilePhoto ??
+                                                  'https://wallpaperaccess.com/full/3037916.png',
                                               height: double.infinity,
                                               width: double.infinity,
                                               fit: BoxFit.cover,
@@ -192,24 +191,38 @@ class EditProfileScreen extends StatelessWidget {
                         height: Constants.defaultPadding,
                       ),
                       TextFormField(
+                        controller: editnameController,
                         decoration: const InputDecoration(label: Text('Name')),
                       ),
                       const SizedBox(
                         height: Constants.defaultPadding / 2,
                       ),
                       TextFormField(
+                        controller: editBioController,
                         decoration: const InputDecoration(label: Text('Bio')),
                       ),
                       const SizedBox(
                         height: Constants.defaultPadding / 2,
                       ),
                       TextFormField(
+                        controller: editphoneController,
                         decoration: const InputDecoration(label: Text('Phone')),
                       ),
                       const SizedBox(
                         height: Constants.defaultPadding / 2,
                       ),
-                      MainButton(text: 'Submit', onTap: () {})
+                      MainButton(
+                          text: 'Submit',
+                          onTap: () {
+                            if (profileImage != null) {
+                              AppCubit.get(context).uploadImage(profileImage,
+                                  imageCase: 'profile');
+                            }
+                            if (coverImage != null) {
+                              AppCubit.get(context)
+                                  .uploadImage(coverImage, imageCase: 'cover');
+                            }
+                          })
                     ],
                   ),
                 ),

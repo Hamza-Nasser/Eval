@@ -9,6 +9,7 @@ import 'package:eval/views/screens/mainlayout/main_layout_modules/home.dart';
 import 'package:eval/views/screens/mainlayout/main_layout_modules/new_post.dart';
 import 'package:eval/views/screens/mainlayout/main_layout_modules/settings.dart';
 import 'package:eval/views/screens/mainlayout/main_layout_modules/useres.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,7 +52,7 @@ class AppCubit extends Cubit<AppCubitStates> {
     emit(AppCubitChangeBottomNavBar());
   }
 
-  UserModel? userModel;
+  static UserModel? userModel;
   Future<void> getUserData() async {
     emit(AppCubitGetUserDataLoadingState());
     try {
@@ -94,6 +95,46 @@ class AppCubit extends Cubit<AppCubitStates> {
     } else {
       print('No Image Selected');
       emit(AppCubitPickCoverImageErrorPhotoState());
+    }
+  }
+
+  final storageRef = FirebaseStorage.instance.ref();
+  String? profileImageUrl;
+  String? coverImageUrl;
+  Future<void> uploadImage(File? image, {required String imageCase}) async {
+    try {
+      emit(AppCubitUploadImageLoadingState());
+
+      if (image != null) {
+        var value = await storageRef
+            .child('users/${Uri.file(image.path).pathSegments.last}')
+            .putFile(image);
+        switch (imageCase) {
+          case 'profile':
+            profileImageUrl = await value.ref.getDownloadURL();
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(Constants.uId)
+                .update({'profilePhoto': profileImageUrl});
+            userModel!.profilePhoto = profileImageUrl;
+            break;
+          case 'cover':
+            coverImageUrl = await value.ref.getDownloadURL();
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(Constants.uId)
+                .update({'coverPhoto': coverImageUrl});
+            userModel!.coverPhoto = coverImageUrl;
+
+            break;
+          default:
+            break;
+        }
+        emit(AppCubitUploadImageSuccessState());
+      }
+    } on FirebaseException catch (e) {
+      print(e.code);
+      emit(AppCubitUploadImageErrorState());
     }
   }
 }

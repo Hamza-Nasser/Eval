@@ -1,4 +1,3 @@
-import 'package:eval/models/user_model.dart';
 import 'package:eval/shared/icon_broken.dart';
 import 'package:eval/utilities/routing/routes.dart';
 import 'package:eval/views/screens/mainlayout/cubit/cubit.dart';
@@ -16,7 +15,7 @@ class SettingsModule extends StatelessWidget {
       builder: (context, state) {
         var appCubit = AppCubit.get(context);
 
-        UserModel? user = appCubit.userModel;
+        //UserModel? user = appCubit.userModel;
 
         return SingleChildScrollView(
           child: Padding(
@@ -32,13 +31,14 @@ class SettingsModule extends StatelessWidget {
                         alignment: Alignment.topCenter,
                         child: Container(
                           height: 170,
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(8.0),
                                   topRight: Radius.circular(8.0)),
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://wallpaperaccess.com/full/2576098.jpg'),
+                                  image: NetworkImage(AppCubit
+                                          .userModel!.coverPhoto ??
+                                      'https://wallpaperaccess.com/full/3037916.png'),
                                   fit: BoxFit.cover)),
                         ),
                       ),
@@ -46,10 +46,14 @@ class SettingsModule extends StatelessWidget {
                         radius: 64.0,
                         backgroundColor:
                             Theme.of(context).scaffoldBackgroundColor,
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 60.0,
-                          backgroundImage: NetworkImage(
+                          backgroundImage: NetworkImage(AppCubit
+                                  .userModel!.profilePhoto ??
                               'https://wallpaperaccess.com/full/3037916.png'),
+                          // backgroundImage: NetworkImage(
+                          //     'https://wallpaperaccess.com/full/3037916.png'
+                          //     ),
                         ),
                       )
                     ],
@@ -60,7 +64,7 @@ class SettingsModule extends StatelessWidget {
                   children: [
                     Text(
                       //'Hamza Nasser',
-                      user!.name ?? 'Eval user',
+                      AppCubit.userModel!.name ?? 'Eval user',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1!
@@ -77,7 +81,7 @@ class SettingsModule extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  user.bio ?? '',
+                  AppCubit.userModel!.bio ?? '',
                   style: Theme.of(context).textTheme.caption,
                 ),
                 const SizedBox(
@@ -193,7 +197,8 @@ class SettingsModule extends StatelessWidget {
                     ),
                     OutlinedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.editProfileScreenRoute);
+                          Navigator.pushNamed(
+                              context, AppRoutes.editProfileScreenRoute);
                         },
                         child: const Icon(IconBroken.Edit))
                   ],
