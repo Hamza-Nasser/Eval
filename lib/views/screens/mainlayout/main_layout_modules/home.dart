@@ -65,9 +65,9 @@ Widget buildPostItem(BuildContext context) {
           children: [
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   backgroundImage: NetworkImage(
-                    'https://wallpaperaccess.com/full/3037916.png',
+                    '${AppCubit.userModel!.profilePhoto}',
                   ),
                 ),
                 const SizedBox(
@@ -218,9 +218,9 @@ Widget buildPostItem(BuildContext context) {
             ),
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   backgroundImage: NetworkImage(
-                    'https://wallpaperaccess.com/full/3037916.png',
+                    '${AppCubit.userModel!.profilePhoto}',
                   ),
                 ),
                 const SizedBox(
