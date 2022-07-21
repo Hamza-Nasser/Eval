@@ -43,12 +43,6 @@ class AppRouter {
                   value: appCubit,
                   child: const EditProfileScreen(),
                 ));
-      // return CupertinoPageRoute(
-
-      //   builder: (context) {
-
-      //       return const MainLayoutScreen();
-      //   }
 
       default:
         return CupertinoPageRoute(

@@ -40,9 +40,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         textTheme: const TextTheme(
           subtitle1: TextStyle(fontFamily: 'Cario', color: Colors.black),
-          headline5: TextStyle(
-            fontFamily: 'Cario',
-          ),
+          headline5: TextStyle(fontFamily: 'Cario', fontSize: 20),
         ),
         primarySwatch: Colors.red,
         primaryColor: Colors.red.shade700,

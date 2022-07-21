@@ -27,3 +27,10 @@ class AppCubitUploadImageLoadingState extends AppCubitStates {}
 class AppCubitUploadImageSuccessState extends AppCubitStates {}
 
 class AppCubitUploadImageErrorState extends AppCubitStates {}
+
+// Update user data
+class AppCubitUpdateUserDataLoadingState extends AppCubitStates {}
+
+class AppCubitUpdateUserDataSuccessState extends AppCubitStates {}
+
+class AppCubitUpdateUserDataErrorState extends AppCubitStates {}

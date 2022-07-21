@@ -13,10 +13,6 @@ class SettingsModule extends StatelessWidget {
     return BlocConsumer<AppCubit, AppCubitStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var appCubit = AppCubit.get(context);
-
-        //UserModel? user = appCubit.userModel;
-
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),

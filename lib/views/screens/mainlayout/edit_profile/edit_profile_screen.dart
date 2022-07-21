@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:eval/shared/constants.dart';
 import 'package:eval/shared/icon_broken.dart';
+import 'package:eval/utilities/extensions/fade_extinsion.dart';
 import 'package:eval/views/screens/mainlayout/cubit/cubit.dart';
 import 'package:eval/views/screens/mainlayout/cubit/states.dart';
 import 'package:eval/views/widgets/main_button.dart';
@@ -18,15 +19,22 @@ class EditProfileScreen extends StatelessWidget {
       builder: (context, state) {
         File? profileImage = AppCubit.get(context).pickedProfileImage;
         File? coverImage = AppCubit.get(context).pickedCoverImage;
-        final editBioController = TextEditingController();
-        final editphoneController = TextEditingController();
-        final editnameController = TextEditingController();
+        final editBioController =
+            TextEditingController(text: AppCubit.userModel!.bio);
+        final editphoneController =
+            TextEditingController(text: AppCubit.userModel!.phone);
+        final editnameController =
+            TextEditingController(text: AppCubit.userModel!.name);
         return Scaffold(
           appBar: AppBar(
+            title: Text('Edit profile',
+                    style: Theme.of(context).textTheme.headline5)
+                .fadeInList(6, false),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             automaticallyImplyLeading: false,
             leading: InkWell(
-              child: const Icon(IconBroken.Arrow___Left, color: Colors.black),
+              child: const Icon(IconBroken.Arrow___Left, color: Colors.black)
+                  .fadeInList(5, false),
               onTap: () {
                 Navigator.of(context).pop();
               },
@@ -38,7 +46,8 @@ class EditProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(Constants.defaultPadding),
                 child: Column(
                   children: [
-                    if (state is AppCubitUploadImageLoadingState)
+                    if (state is AppCubitUploadImageLoadingState ||
+                        state is AppCubitUpdateUserDataLoadingState)
                       const LinearProgressIndicator(),
                     SizedBox(
                       height: 220,
@@ -54,17 +63,15 @@ class EditProfileScreen extends StatelessWidget {
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
-                                    image: coverImage == null
-                                        ? NetworkImage(
-                                            AppCubit.userModel!.coverPhoto ??
-                                                'https://wallpaperaccess.com/full/3037916.png',
-                                          )
-                                        : FileImage(coverImage)
-                                            as ImageProvider,
-                                    // image: NetworkImage(
-                                    //     'https://wallpaperaccess.com/full/2576098.jpg'),
-                                    //fit: BoxFit.cover
-                                  )),
+                                          image: coverImage == null
+                                              ? NetworkImage(
+                                                  AppCubit.userModel!
+                                                          .coverPhoto ??
+                                                      'https://wallpaperaccess.com/full/3037916.png',
+                                                )
+                                              : FileImage(coverImage)
+                                                  as ImageProvider,
+                                          fit: BoxFit.cover)),
                                 ),
                                 Stack(
                                   alignment: AlignmentDirectional.topEnd,
@@ -120,7 +127,6 @@ class EditProfileScreen extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 60.0,
-
                                   child: profileImage == null
                                       ? ClipOval(
                                           child: Image.network(
@@ -139,9 +145,6 @@ class EditProfileScreen extends StatelessWidget {
                                             width: double.infinity,
                                           ),
                                         ),
-                                  // child: profileImage == null? NetworkImage(
-                                  //         '')
-                                  //     :
                                 ),
                                 CircleAvatar(
                                   radius: 60.0,
@@ -177,28 +180,28 @@ class EditProfileScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                    ),
+                    ).fadeInList(0, false),
                     const SizedBox(
                       height: Constants.defaultPadding,
                     ),
                     TextFormField(
                       controller: editnameController,
                       decoration: const InputDecoration(label: Text('Name')),
-                    ),
+                    ).fadeInList(1, false),
                     const SizedBox(
                       height: Constants.defaultPadding / 2,
                     ),
                     TextFormField(
                       controller: editBioController,
                       decoration: const InputDecoration(label: Text('Bio')),
-                    ),
+                    ).fadeInList(2, false),
                     const SizedBox(
                       height: Constants.defaultPadding / 2,
                     ),
                     TextFormField(
                       controller: editphoneController,
                       decoration: const InputDecoration(label: Text('Phone')),
-                    ),
+                    ).fadeInList(3, false),
                     const SizedBox(
                       height: Constants.defaultPadding / 2,
                     ),
@@ -213,7 +216,11 @@ class EditProfileScreen extends StatelessWidget {
                             AppCubit.get(context)
                                 .uploadImage(coverImage, imageCase: 'cover');
                           }
-                        })
+                          AppCubit.get(context).updateUserData(
+                              name: editnameController.text,
+                              phone: editphoneController.text,
+                              bio: editBioController.text);
+                        }).fadeInList(4, true)
                   ],
                 ),
               ),

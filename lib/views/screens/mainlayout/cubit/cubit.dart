@@ -137,4 +137,26 @@ class AppCubit extends Cubit<AppCubitStates> {
       emit(AppCubitUploadImageErrorState());
     }
   }
+
+  void updateUserData({String? name, String? phone, String? bio}) async {
+    emit(AppCubitUpdateUserDataLoadingState());
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(Constants.uId)
+          .update({
+        if (name != null && name != '') 'name': name,
+        if (phone != null && phone != '') 'phone': phone,
+        if (bio != null && bio != '') 'bio': bio,
+      });
+      userModel!.name = (name != null && name != '') ? name : userModel!.name;
+      userModel!.phone =
+          (phone != null && phone != '') ? phone : userModel!.phone;
+      userModel!.bio = (bio != null && bio != '') ? bio : userModel!.bio;
+      emit(AppCubitUpdateUserDataSuccessState());
+    } on FirebaseException catch (e) {
+      print(e.code);
+      emit(AppCubitUpdateUserDataErrorState());
+    }
+  }
 }
